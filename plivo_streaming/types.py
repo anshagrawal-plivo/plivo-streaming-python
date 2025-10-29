@@ -10,7 +10,6 @@ class EventType(str, Enum):
     # Incoming events from Plivo MS
     START = "start"
     MEDIA = "media"
-    END = "end"
     PLAYED_STREAM = "playedStream"
     CLEARED_AUDIO = "clearedAudio"
     DTMF = "dtmf"
@@ -86,13 +85,6 @@ class ClearedAudioEvent(BaseModel):
     """ClearedAudio event payload from Plivo MS"""
     sequenceNumber: int = Field(..., description="Message sequence number")
     event: Literal["clearedAudio"] = Field(..., description="Event type")
-    streamId: str = Field(..., description="Stream identifier")
-
-
-class EndEvent(BaseModel):
-    """End event payload from Plivo MS"""
-    sequenceNumber: int = Field(..., description="Message sequence number")
-    event: Literal["end"] = Field(..., description="Event type")
     streamId: str = Field(..., description="Stream identifier")
 
 

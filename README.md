@@ -264,6 +264,9 @@ The SDK recognizes these Plivo event types:
 - `media` - Audio data received
 - `start` - Stream started
 - `error` - Error occurred
+- `playedStream` - Audio events buffered before the Checkpoint were successfully played out to the end user
+- `clearedAudio` - Cleared all buffered media events
+- `dtmf` - Sent when someone presses a touch-tone number key in the inbound stream
 
 ## Code Architecture
 

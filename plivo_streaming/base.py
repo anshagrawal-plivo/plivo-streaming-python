@@ -95,14 +95,6 @@ class BaseStreamingHandler(ABC):
         self._cleared_audio_callbacks.append(func)
         return func
     
-    def on_end(self, func: EventCallback) -> EventCallback:
-        """
-        Decorator to register a callback for end events.
-        The callback automatically receives a StreamEvent parameter.
-        """
-        self._callbacks[EventType.END].append(func)
-        return func
-    
     def on_connected(self, func: ConnectionCallback) -> ConnectionCallback:
         """
         Decorator to register a callback for connection events.

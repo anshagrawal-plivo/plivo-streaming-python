@@ -26,7 +26,6 @@ from plivo_streaming.types import (
     DtmfData,
     PlayedStreamEvent,
     ClearedAudioEvent,
-    EndEvent,
     MediaFormat,
     # Outgoing event types
     PlayAudioEvent,
@@ -62,7 +61,6 @@ __all__ = [
     "DtmfData",
     "PlayedStreamEvent",
     "ClearedAudioEvent",
-    "EndEvent",
     "MediaFormat",
     # Outgoing event types
     "PlayAudioEvent",
