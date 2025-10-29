@@ -5,12 +5,12 @@ from websockets.server import ServerConnection
 from plivo_streaming.base import BaseStreamingHandler
 
 
-class WebSocketStreamingHandler(BaseStreamingHandler):
+class PlivoWebsocketStreamingHandler(BaseStreamingHandler):
     """
     Plain WebSocket handler for Plivo streaming using websockets library.
     
     Usage:
-        handler = WebSocketStreamingHandler()
+        handler = PlivoWebsocketStreamingHandler()
         
         @handler.on_connected
         async def handle_connect():

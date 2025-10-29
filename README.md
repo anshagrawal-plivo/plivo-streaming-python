@@ -29,13 +29,13 @@ pip install plivo-streaming-python[dev]
 
 ```python
 from fastapi import FastAPI, WebSocket
-from plivo_streaming import FastAPIStreamingHandler
+from plivo_streaming import PlivoFastAPIStreamingHandler
 
 app = FastAPI()
 
 @app.websocket("/stream")
 async def websocket_endpoint(websocket: WebSocket):
-    handler = FastAPIStreamingHandler(websocket)
+    handler = PlivoFastAPIStreamingHandler(websocket)
     
     @handler.on_connected
     async def on_connect():
@@ -60,10 +60,10 @@ async def websocket_endpoint(websocket: WebSocket):
 ```python
 import asyncio
 import websockets
-from plivo_streaming import WebSocketStreamingHandler
+from plivo_streaming import PlivoWebsocketStreamingHandler
 
 async def create_handler(websocket):
-    handler = WebSocketStreamingHandler()
+    handler = PlivoWebsocketStreamingHandler()
     
     @handler.on_connected
     async def on_connect():
@@ -97,14 +97,14 @@ The SDK acts as a bridge between Plivo's server and your application, handling b
 
 ## API Reference
 
-### FastAPIStreamingHandler
+### PlivoFastAPIStreamingHandler
 
 Main class for handling FastAPI WebSocket connections.
 
 #### Initialization
 
 ```python
-handler = FastAPIStreamingHandler(websocket)
+handler = PlivoFastAPIStreamingHandler(websocket)
 ```
 
 #### Event Hooks
@@ -210,19 +210,19 @@ Stop the WebSocket listener and close the connection.
 await handler.stop()
 ```
 
-### WebSocketStreamingHandler
+### PlivoWebsocketStreamingHandler
 
 Main class for handling plain WebSocket connections using the websockets library.
 
 #### Initialization
 
 ```python
-handler = WebSocketStreamingHandler()
+handler = PlivoWebsocketStreamingHandler()
 ```
 
 #### Event Hooks
 
-Same decorator-based event hooks as FastAPIStreamingHandler:
+Same decorator-based event hooks as PlivoFastAPIStreamingHandler:
 - `@handler.on_connected`
 - `@handler.on_disconnected`
 - `@handler.on_media`
@@ -231,7 +231,7 @@ Same decorator-based event hooks as FastAPIStreamingHandler:
 
 #### Sending Methods
 
-Same methods as FastAPIStreamingHandler:
+Same methods as PlivoFastAPIStreamingHandler:
 - `send_media(media_data)`
 - `send_checkpoint(checkpoint_name)`
 - `send_clear_audio()`

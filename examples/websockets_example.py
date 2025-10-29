@@ -3,7 +3,7 @@
 import asyncio
 import websockets
 from plivo_streaming import (
-    WebSocketStreamingHandler,
+    PlivoWebsocketStreamingHandler,
     StartEvent,
     MediaEvent,
     DtmfEvent,
@@ -16,7 +16,7 @@ from plivo_streaming import (
 async def create_handler(websocket):
     """Create and configure handler for each connection"""
 
-    handler = WebSocketStreamingHandler()
+    handler = PlivoWebsocketStreamingHandler()
 
     # Register event handlers
     @handler.on_connected

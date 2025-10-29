@@ -4,7 +4,7 @@ __version__ = "0.1.0"
 
 from plivo_streaming.base import BaseStreamingHandler
 from plivo_streaming.fastapi import PlivoFastAPIStreamingHandler
-from plivo_streaming.websockets import WebSocketStreamingHandler
+from plivo_streaming.websockets import PlivoWebsocketStreamingHandler
 from plivo_streaming.types import (
     EventType,
     StreamEvent,
@@ -39,7 +39,7 @@ __all__ = [
     # Handlers
     "BaseStreamingHandler",
     "PlivoFastAPIStreamingHandler",
-    "WebSocketStreamingHandler",
+    "PlivoWebsocketStreamingHandler",
     # Enums
     "EventType",
     # Base types

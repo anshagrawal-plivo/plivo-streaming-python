@@ -1,6 +1,6 @@
 """Websockets module for Plivo Streaming SDK"""
 
-from plivo_streaming.websockets.streaming import WebSocketStreamingHandler
+from plivo_streaming.websockets.streaming import PlivoWebsocketStreamingHandler
 
-__all__ = ["WebSocketStreamingHandler"]
+__all__ = ["PlivoWebsocketStreamingHandler"]
 

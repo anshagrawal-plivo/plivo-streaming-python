@@ -4,7 +4,7 @@ import asyncio
 import websockets
 from websockets.server import ServerConnection
 from plivo_streaming import (
-    WebSocketStreamingHandler,
+    PlivoWebsocketStreamingHandler,
     StartEvent,
     MediaEvent,
     DtmfEvent,
@@ -17,7 +17,7 @@ from plivo_streaming import (
 async def handle_stream(websocket: ServerConnection):
     """Handle /stream endpoint"""
 
-    handler = WebSocketStreamingHandler()
+    handler = PlivoWebsocketStreamingHandler()
 
     @handler.on_connected
     async def on_connect():

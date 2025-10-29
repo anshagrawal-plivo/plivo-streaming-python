@@ -12,7 +12,7 @@ plivo_streaming/
 ├── fastapi/
 │   └── streaming.py     # PlivoFastAPIStreamingHandler (~68 lines)
 └── websockets/
-    └── streaming.py     # WebSocketStreamingHandler (~72 lines)
+    └── streaming.py     # PlivoWebsocketStreamingHandler (~72 lines)
 ```
 
 ### Benefits
