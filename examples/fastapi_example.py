@@ -4,7 +4,7 @@ import asyncio
 from fastapi import FastAPI, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 from plivo_streaming import (
-    FastAPIStreamingHandler,
+    PlivoFastAPIStreamingHandler,
     StartEvent,
     MediaEvent,
     DtmfEvent,
@@ -36,7 +36,7 @@ async def websocket_endpoint(websocket: WebSocket):
     # print(f"📋 Headers: {dict(websocket.headers)}")
     
     # Create handler instance
-    handler = FastAPIStreamingHandler(websocket)
+    handler = PlivoFastAPIStreamingHandler(websocket)
     
     # Register event handlers
     @handler.on_connected

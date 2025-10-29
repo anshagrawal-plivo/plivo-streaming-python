@@ -10,7 +10,7 @@ The SDK uses a base class pattern to minimize code duplication and make it easy 
 plivo_streaming/
 ├── base.py              # BaseStreamingHandler - all shared logic (~300 lines)
 ├── fastapi/
-│   └── streaming.py     # FastAPIStreamingHandler (~68 lines)
+│   └── streaming.py     # PlivoFastAPIStreamingHandler (~68 lines)
 └── websockets/
     └── streaming.py     # WebSocketStreamingHandler (~72 lines)
 ```

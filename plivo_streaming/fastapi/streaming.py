@@ -4,12 +4,12 @@ from fastapi import WebSocket, WebSocketDisconnect
 from plivo_streaming.base import BaseStreamingHandler
 
 
-class FastAPIStreamingHandler(BaseStreamingHandler):
+class PlivoFastAPIStreamingHandler(BaseStreamingHandler):
     """
     FastAPI WebSocket handler for Plivo streaming.
     
     Usage:
-        handler = FastAPIStreamingHandler(websocket)
+        handler = PlivoFastAPIStreamingHandler(websocket)
         
         @handler.on_connected
         async def handle_connect():

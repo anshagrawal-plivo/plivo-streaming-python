@@ -1,6 +1,6 @@
 """FastAPI module for Plivo Streaming SDK"""
 
-from plivo_streaming.fastapi.streaming import FastAPIStreamingHandler
+from plivo_streaming.fastapi.streaming import PlivoFastAPIStreamingHandler
 
-__all__ = ["FastAPIStreamingHandler"]
+__all__ = ["PlivoFastAPIStreamingHandler"]
 
