@@ -1,7 +1,7 @@
 """Type definitions for Plivo Streaming SDK"""
 
 from enum import Enum
-from typing import Any, Callable, Awaitable, Literal
+from typing import Any, Callable, Awaitable, Literal, Optional
 from pydantic import BaseModel, Field
 
 
@@ -37,7 +37,7 @@ class StartEvent(BaseModel):
     sequenceNumber: int = Field(..., description="Message sequence number")
     event: Literal["start"] = Field(..., description="Event type")
     start: StartData = Field(..., description="Start event data")
-    extra_headers: str = Field(..., description="Extra headers as JSON string")
+    extra_headers: Optional[str] = Field(None, description="Extra headers as JSON string")
 
 
 class MediaData(BaseModel):
@@ -54,7 +54,7 @@ class MediaEvent(BaseModel):
     streamId: str = Field(..., description="Stream identifier")
     event: Literal["media"] = Field(..., description="Event type")
     media: MediaData = Field(..., description="Media data")
-    extra_headers: str = Field(..., description="Extra headers as JSON string")
+    extra_headers: Optional[str] = Field(None, description="Extra headers as JSON string")
 
 
 class DtmfData(BaseModel):
@@ -70,7 +70,7 @@ class DtmfEvent(BaseModel):
     sequenceNumber: int = Field(..., description="Message sequence number")
     streamId: str = Field(..., description="Stream identifier")
     dtmf: DtmfData = Field(..., description="DTMF data")
-    extra_headers: str = Field(..., description="Extra headers as JSON string")
+    extra_headers: Optional[str] = Field(None, description="Extra headers as JSON string")
 
 
 class PlayedStreamEvent(BaseModel):
