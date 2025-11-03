@@ -38,9 +38,16 @@ class BaseStreamingHandler(ABC):
         self._stream_id: Optional[str] = None
         self._call_id: Optional[str] = None
         self._account_id: Optional[str] = None
+        self._headers: Optional[dict[str, str]] = None
 
     def get_stream_id(self) -> Optional[str]:
         return self._stream_id
+
+    def get_header(self, key: str) -> Optional[str]:
+        return self._headers.get(key)
+    
+    def get_all_headers(self) -> Optional[dict[str, str]]:
+        return self._headers
     
     def get_call_id(self) -> Optional[str]:
         return self._call_id
@@ -138,9 +145,9 @@ class BaseStreamingHandler(ABC):
             if event.event == EventType.START:
                 start_event = StartEvent(**event.data)
                 # Extract and store streamId, callId, accountId from start event
-                self._stream_id = start_event.start.streamId
-                self._call_id = start_event.start.callId
-                self._account_id = start_event.start.accountId
+                self._stream_id = start_event.start.stream_id
+                self._call_id = start_event.start.call_id
+                self._account_id = start_event.start.account_id
                 await asyncio.gather(
                     *[callback(start_event) for callback in self._start_callbacks],
                     return_exceptions=True

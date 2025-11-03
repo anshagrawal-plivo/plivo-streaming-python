@@ -20,21 +20,21 @@ class EventType(str, Enum):
 class MediaFormat(BaseModel):
     """Media format specification"""
     encoding: str = Field(..., description="Audio encoding, e.g., 'audio/x-mulaw'")
-    sampleRate: int = Field(..., description="Sample rate, e.g., 8000")
+    sample_rate: int = Field(...,alias="sampleRate", description="Sample rate, e.g., 8000")
 
 
 class StartData(BaseModel):
     """Start event data structure"""
-    callId: str = Field(..., description="Unique call identifier")
-    streamId: str = Field(..., description="Unique stream identifier")
-    accountId: str = Field(..., description="Plivo account ID")
+    call_id: str = Field(..., alias="callId", description="Unique call identifier")
+    stream_id: str = Field(..., alias="streamId", description="Unique stream identifier")
+    account_id: str = Field(..., alias="accountId", description="Plivo account ID")
     tracks: list[str] = Field(..., description="Audio tracks, e.g., ['inbound']")
-    mediaFormat: MediaFormat = Field(..., description="Media format specification")
+    media_format: MediaFormat = Field(..., alias="mediaFormat", description="Media format specification")
 
 
 class StartEvent(BaseModel):
     """Start event payload from Plivo MS"""
-    sequenceNumber: int = Field(..., description="Message sequence number")
+    sequence_number: int = Field(..., alias="sequenceNumber", description="Message sequence number")
     event: Literal["start"] = Field(..., description="Event type")
     start: StartData = Field(..., description="Start event data")
     extra_headers: Optional[str] = Field(None, description="Extra headers as JSON string")
@@ -50,7 +50,7 @@ class MediaData(BaseModel):
 
 class MediaEvent(BaseModel):
     """Media event payload from Plivo MS"""
-    sequenceNumber: int = Field(..., description="Message sequence number")
+    sequence_number: int = Field(..., alias="sequenceNumber", description="Message sequence number")
     streamId: str = Field(..., description="Stream identifier")
     event: Literal["media"] = Field(..., description="Event type")
     media: MediaData = Field(..., description="Media data")
@@ -67,8 +67,8 @@ class DtmfData(BaseModel):
 class DtmfEvent(BaseModel):
     """DTMF event payload from Plivo MS"""
     event: Literal["dtmf"] = Field(..., description="Event type")
-    sequenceNumber: int = Field(..., description="Message sequence number")
-    streamId: str = Field(..., description="Stream identifier")
+    sequence_number: int = Field(..., alias="sequenceNumber", description="Message sequence number")
+    stream_id: str = Field(..., alias="streamId", description="Stream identifier")
     dtmf: DtmfData = Field(..., description="DTMF data")
     extra_headers: Optional[str] = Field(None, description="Extra headers as JSON string")
 
@@ -76,16 +76,16 @@ class DtmfEvent(BaseModel):
 class PlayedStreamEvent(BaseModel):
     """PlayedStream event payload from Plivo MS"""
     event: Literal["playedStream"] = Field(..., description="Event type")
-    sequenceNumber: str = Field(..., description="Message sequence number (can be string)")
-    streamId: str = Field(..., description="Stream identifier")
+    sequence_number: str = Field(..., alias="sequenceNumber", description="Message sequence number (can be string)")
+    stream_id: str = Field(..., alias="streamId", description="Stream identifier")
     name: str = Field(..., description="Checkpoint name")
 
 
 class ClearedAudioEvent(BaseModel):
     """ClearedAudio event payload from Plivo MS"""
-    sequenceNumber: int = Field(..., description="Message sequence number")
+    sequence_number: int = Field(..., alias="sequenceNumber", description="Message sequence number")
     event: Literal["clearedAudio"] = Field(..., description="Event type")
-    streamId: str = Field(..., description="Stream identifier")
+    stream_id: str = Field(..., alias="streamId", description="Stream identifier")
 
 
 # ========== Outgoing Event Payloads to Plivo MS ==========

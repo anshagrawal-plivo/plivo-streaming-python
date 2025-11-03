@@ -1,0 +1,14 @@
+[project]
+name = "fastapi_example"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "dotenv>=0.9.9",
+    "eval-type-backport>=0.2.2",
+    "fastapi>=0.120.1",
+    "openai-agents>=0.4.2",
+    "plivo>=4.59.3",
+    "uvicorn>=0.38.0",
+]
