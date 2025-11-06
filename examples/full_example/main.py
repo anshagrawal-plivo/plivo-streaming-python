@@ -14,9 +14,10 @@ from plivo_streaming import PlayedStreamEvent, PlivoFastAPIStreamingHandler
 from plivo_streaming.types import MediaEvent
 import logging
 from dotenv import load_dotenv
+
 logging.basicConfig(
     level=logging.INFO,  # This is the key line
-    format='%(asctime)s - %(levelname)s - %(message)s'
+    format="%(asctime)s - %(levelname)s - %(message)s",
 )
 load_dotenv()
 logger = logging.getLogger(__name__)
@@ -32,6 +33,7 @@ DEEPGRAM_API_KEY = os.getenv("DEEPGRAM_API_KEY")
 # Audio configuration
 AUDIO_SAMPLE_RATE = int(os.getenv("AUDIO_SAMPLE_RATE"))
 AUDIO_CONTENT_TYPE = os.getenv("AUDIO_CONTENT_TYPE")
+RECORDING_CALLBACK_URL = os.getenv("RECORDING_CALLBACK_URL")
 
 # Model configuration
 OPENAI_MODEL = os.getenv("OPENAI_MODEL")
@@ -100,10 +102,17 @@ def read_root():
 def initiate_stream(request: Request):
     """Initialize a Plivo streaming session with bidirectional audio."""
     host = request.headers.get("Host")
-    
+
     # Build Plivo XML response
     plivo_response = plivoxml.ResponseElement()
     plivo_response.add_speak("Hello, how are you?")
+    # Record the call session and send the recording metadata to the callback URL
+    plivo_response.add_record(
+        # maximum number of seconds to record
+        max_length=60,
+        record_session=True,
+        callback_url=RECORDING_CALLBACK_URL,
+    )
     plivo_response.add(
         StreamElement(
             bidirectional=True,
@@ -112,7 +121,7 @@ def initiate_stream(request: Request):
             content=f"ws://{host}/stream",
         )
     )
-    
+
     return Response(content=plivo_response.to_string(), media_type="application/xml")
 
 
@@ -120,12 +129,11 @@ def initiate_stream(request: Request):
 # WebSocket Routes
 # ============================================================================
 
-
 @app.websocket("/stream")
 async def stream_websocket_handler(websocket: WebSocket):
     """
     Handle bidirectional audio streaming between Plivo, Deepgram, and ElevenLabs.
-    
+
     Flow:
     1. Receive audio from Plivo call
     2. Send to Deepgram for transcription
@@ -167,11 +175,11 @@ async def stream_websocket_handler(websocket: WebSocket):
         async def connect_and_listen_deepgram():
             """Connect to Deepgram and handle transcription events."""
             nonlocal deepgram_connection
-            
+
             async with deepgram_client.listen.v2.connect(
                 model=DEEPGRAM_MODEL,
                 encoding="linear16",
-                sample_rate=str(AUDIO_SAMPLE_RATE)
+                sample_rate=str(AUDIO_SAMPLE_RATE),
             ) as connection:
 
                 async def on_deepgram_message(message):
@@ -179,11 +187,13 @@ async def stream_websocket_handler(websocket: WebSocket):
                     """Handle incoming Deepgram transcription messages."""
                     if message.type == "TurnInfo" and message.event == "EndOfTurn":
                         logger.info(message.transcript)
-                        
+
                         # Get AI response for the transcribed text
-                        ai_response = await add_message_and_get_response(message.transcript)
+                        ai_response = await add_message_and_get_response(
+                            message.transcript
+                        )
                         logger.info(f"{ai_response}")
-                        
+
                         # Convert AI response to speech and stream back
                         if playing:
                             # If the audio is still being played to the user, we need to clear the audio buffer
@@ -209,7 +219,7 @@ async def stream_websocket_handler(websocket: WebSocket):
         deepgram_task = asyncio.create_task(connect_and_listen_deepgram())
         plivo_task = asyncio.create_task(plivo_handler.start())
         await asyncio.gather(deepgram_task, plivo_task)
-        
+
     except Exception as e:
         logger.error(f"Error: {e}")
         return {"message": "Error occurred"}
