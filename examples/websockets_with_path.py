@@ -1,6 +1,7 @@
 """Example WebSocket server with path routing (like /stream endpoint)"""
 
 import asyncio
+import base64
 import websockets
 from websockets.server import ServerConnection
 from plivo_streaming import (
@@ -52,7 +53,7 @@ async def handle_stream(websocket: ServerConnection):
 
         # Echo the media back
         if payload:
-            await handler.send_media(payload)
+            await handler.send_media(base64.b64decode(payload))
 
     @handler.on_dtmf
     async def on_dtmf(data: DtmfEvent):

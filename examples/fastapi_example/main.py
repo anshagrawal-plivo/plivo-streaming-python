@@ -138,12 +138,8 @@ async def websocket_endpoint(websocket: WebSocket):
                             # session_ready.set()  # Mark session as ready
                         elif event.type == "audio":
                             audio_from_openai = event.audio.data
-                            # Encode to base64 and send via Plivo
-                            encoded_audio = base64.b64encode(audio_from_openai).decode(
-                                "utf-8"
-                            )
                             await handler.send_media(
-                                media_data=encoded_audio,
+                                media_data=audio_from_openai,
                                 content_type="audio/x-mulaw",
                                 sample_rate=8000,
                             )

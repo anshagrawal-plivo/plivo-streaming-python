@@ -152,7 +152,7 @@ class PlayAudioMedia(BaseModel):
     sample_rate: int = Field(
         ..., alias="sampleRate", description="Sample rate, e.g., 8000"
     )
-    payload: str = Field(..., description="Base64 encoded audio data")
+    payload: str = Field(..., description="Raw Audio data")
 
 
 class PlayAudioEvent(BaseModel):

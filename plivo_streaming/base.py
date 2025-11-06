@@ -243,7 +243,7 @@ class BaseStreamingHandler(ABC):
 
     async def send_media(
         self,
-        media_data: str,
+        media_data: bytes,
         content_type: str = "audio/x-mulaw",
         sample_rate: int = 8000,
     ):
@@ -251,17 +251,18 @@ class BaseStreamingHandler(ABC):
         Send media data through the WebSocket
 
         Args:
-            media_data: The media payload (base64 encoded)
+            media_data: The media payload (raw bytes)
             content_type: Audio content type (default: "audio/x-mulaw")
             sample_rate: Audio sample rate (default: 8000)
         """
         from plivo_streaming.types import PlayAudioEvent, PlayAudioMedia
 
+        encoded_media_data = base64.b64encode(media_data).decode("utf-8")
         payload = PlayAudioEvent(
             event="playAudio",
             media=PlayAudioMedia(
                 contentType=content_type,
-                payload=media_data,
+                payload=encoded_media_data,
                 sampleRate=sample_rate,
             ),
         )

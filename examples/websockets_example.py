@@ -1,6 +1,7 @@
 """Example plain WebSocket application using Plivo Streaming SDK"""
 
 import asyncio
+import base64
 import websockets
 from plivo_streaming import (
     PlivoWebsocketStreamingHandler,
@@ -51,7 +52,7 @@ async def create_handler(websocket):
 
         # Echo the media back
         if payload:
-            await handler.send_media(payload)
+            await handler.send_media(base64.b64decode(payload))
 
     @handler.on_dtmf
     async def on_dtmf(data: DtmfEvent):

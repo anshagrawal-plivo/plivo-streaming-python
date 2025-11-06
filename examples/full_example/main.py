@@ -77,6 +77,11 @@ async def add_message_and_get_response(user_message: str) -> str:
     conversation_history.append({"role": "user", "content": user_message})
     assistant_response = await get_openai_response()
     conversation_history.append({"role": "assistant", "content": assistant_response})
+    
+    # Keep only the last 10 messages (FIFO)
+    if len(conversation_history) > 10:
+        conversation_history[:] = conversation_history[-10:]
+    
     return assistant_response
 
 
@@ -158,7 +163,7 @@ async def stream_websocket_handler(websocket: WebSocket):
             playing = True
             async for audio_chunk in audio_stream:
                 await plivo_handler.send_media(
-                    media_data=base64.b64encode(audio_chunk),
+                    media_data=audio_chunk,
                     content_type=AUDIO_CONTENT_TYPE,
                     sample_rate=AUDIO_SAMPLE_RATE,
                 )
@@ -212,8 +217,10 @@ async def stream_websocket_handler(websocket: WebSocket):
             """Forward incoming audio from Plivo to Deepgram for transcription."""
             if deepgram_connection is not None:
                 await deepgram_connection.send_media(
-                    base64.b64decode(event.media.payload)
+                    event.get_raw_audio()
                 )
+            else:
+                logger.error("No Deepgram connection established")
 
         # Run both Deepgram listener and Plivo handler concurrently
         deepgram_task = asyncio.create_task(connect_and_listen_deepgram())
