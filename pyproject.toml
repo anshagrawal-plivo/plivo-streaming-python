@@ -26,4 +26,5 @@ include = ["plivo_streaming*"]
 [tool.uv.workspace]
 members = [
     "examples/fastapi_example",
+    "examples/full_example",
 ]
