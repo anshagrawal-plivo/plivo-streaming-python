@@ -114,7 +114,7 @@ def initiate_stream(request: Request):
     # Record the call session and send the recording metadata to the callback URL
     plivo_response.add_record(
         # maximum number of seconds to record
-        max_length=60,
+        max_length=86400,
         record_session=True,
         callback_url=RECORDING_CALLBACK_URL,
     )
