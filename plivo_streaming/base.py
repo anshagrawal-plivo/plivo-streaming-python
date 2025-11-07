@@ -161,7 +161,7 @@ class BaseStreamingHandler(ABC):
                 )
             elif event.event == EventType.MEDIA:
                 media_event = MediaEvent(**event.data)
-                media_event.get_raw_audio = lambda: base64.b64decode(
+                media_event.get_raw_media = lambda: base64.b64decode(
                     media_event.media.payload
                 )
                 await asyncio.gather(

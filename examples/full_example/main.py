@@ -217,7 +217,7 @@ async def stream_websocket_handler(websocket: WebSocket):
             """Forward incoming audio from Plivo to Deepgram for transcription."""
             if deepgram_connection is not None:
                 await deepgram_connection.send_media(
-                    event.get_raw_audio()
+                    event.get_raw_media()
                 )
             else:
                 logger.error("No Deepgram connection established")

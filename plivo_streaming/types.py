@@ -87,7 +87,7 @@ class MediaEvent(BaseModel):
     extra_headers: Optional[str] = Field(
         None, description="Extra headers as JSON string"
     )
-    get_raw_audio: Optional[Callable[[], bytes]] = Field(
+    get_raw_media: Optional[Callable[[], bytes]] = Field(
         default=None, exclude=True, description="Get raw audio data"
     )
 
