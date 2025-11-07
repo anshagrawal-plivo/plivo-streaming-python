@@ -78,9 +78,9 @@ async def add_message_and_get_response(user_message: str) -> str:
     assistant_response = await get_openai_response()
     conversation_history.append({"role": "assistant", "content": assistant_response})
     
-    # Keep only the last 10 messages (FIFO)
-    if len(conversation_history) > 10:
-        conversation_history[:] = conversation_history[-10:]
+    # Keep only the last 10 pairs (20 messages)
+    if len(conversation_history) > 20:
+        conversation_history[:] = conversation_history[-20:]
     
     return assistant_response
 
