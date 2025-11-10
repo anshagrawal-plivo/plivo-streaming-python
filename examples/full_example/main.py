@@ -100,7 +100,7 @@ app = FastAPI()
 @app.get("/")
 def read_root():
     """Health check endpoint."""
-    return {"message": "Hello from temp!"}
+    return {"message": "Hello World"}
 
 
 @app.get("/stream")
@@ -110,7 +110,6 @@ def initiate_stream(request: Request):
 
     # Build Plivo XML response
     plivo_response = plivoxml.ResponseElement()
-    plivo_response.add_speak("Hello, how are you?")
     # Record the call session and send the recording metadata to the callback URL
     plivo_response.add_record(
         # maximum number of seconds to record
