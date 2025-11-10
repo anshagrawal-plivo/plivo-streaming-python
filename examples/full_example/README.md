@@ -47,6 +47,18 @@ python main.py
 
 Server starts on `http://0.0.0.0:8000` with WebSocket endpoint at `ws://0.0.0.0:8000/stream`
 
+## Run with Docker
+
+1. Create a `.env` file with your API keys and configuration (see `.env.example` for required variables)
+
+2. Build and run with docker-compose from the repo root:
+```bash
+cd /path/to/plivo-streaming-python
+docker-compose -f examples/full_example/docker-compose.yml up --build
+```
+
+The server will be available on `http://localhost:8000`
+
 ## Usage
 
 Configure your Plivo phone number to stream audio to your server's WebSocket endpoint. When a call comes in:
