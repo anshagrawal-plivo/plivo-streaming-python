@@ -10,8 +10,7 @@ from fastapi import FastAPI, Request, Response, WebSocket
 from openai import AsyncOpenAI
 from plivo import plivoxml
 from plivo.xml import StreamElement
-from plivo_streaming import PlayedStreamEvent, PlivoFastAPIStreamingHandler
-from plivo_streaming.types import MediaEvent
+from plivo_streaming import ClearedAudioEvent, DtmfEvent, PlayedStreamEvent, PlivoFastAPIStreamingHandler, MediaEvent, StartEvent
 import logging
 from dotenv import load_dotenv
 
@@ -220,6 +219,36 @@ async def stream_websocket_handler(websocket: WebSocket):
                 )
             else:
                 logger.error("No Deepgram connection established")
+
+        @plivo_handler.on_start
+        async def on_start(event: StartEvent):
+            """Handle the start event."""
+            logger.info(f"Stream started: {event.start.stream_id}")
+
+        @plivo_handler.on_disconnected
+        async def on_disconnected():
+            """Handle the disconnected event."""
+            logger.info("Disconnected from Plivo")
+
+        @plivo_handler.on_dtmf
+        async def on_dtmf(event: DtmfEvent):
+            """Handle the DTMF event."""
+            logger.info(f"DTMF detected: {event.dtmf.digit}")
+
+        @plivo_handler.on_cleared_audio
+        async def on_cleared_audio(event: ClearedAudioEvent):
+            """Handle the cleared audio event."""
+            logger.info(f"Cleared audio: {event.stream_id}")
+
+        @plivo_handler.on_disconnected
+        async def on_disconnected():
+            """Handle the disconnected event."""
+            logger.info("Disconnected from Plivo")
+
+        @plivo_handler.on_error
+        async def on_error(error: Exception):
+            """Handle the error event."""
+            logger.error(f"Error: {error}")
 
         # Run both Deepgram listener and Plivo handler concurrently
         deepgram_task = asyncio.create_task(connect_and_listen_deepgram())
